@@ -5,8 +5,20 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(title: const Text("Weather APP")),
+      body: Container(
+        width: size.width,
+        height: size.height,
+        color: Colors.red,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [],
+          ),
+        ),
+      ),
     );
   }
 }
