@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../models/city.dart';
 import '../models/constants.dart';
 import 'home.dart';
 
@@ -13,6 +14,10 @@ class Welcome extends StatefulWidget {
 class _WelcomeState extends State<Welcome> {
   @override
   Widget build(BuildContext context) {
+    List<City> cities =
+        City.citiesList.where((city) => city.isDefault == false).toList();
+    List<City> selectedCities = City.getSelectedCities();
+
     Constants myConstants = Constants();
     Size size = MediaQuery.of(context).size;
 
@@ -20,9 +25,11 @@ class _WelcomeState extends State<Welcome> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: myConstants.secondaryColor,
+        title: Text(selectedCities.length.toString() + ' selected'),
       ),
       body: ListView.builder(
         physics: const BouncingScrollPhysics(),
+        itemCount: cities.length,
         itemBuilder: (BuildContext context, int index) {
           return Container(
             margin: const EdgeInsets.only(left: 10, top: 20, right: 10),
@@ -30,6 +37,12 @@ class _WelcomeState extends State<Welcome> {
             height: size.height * .08,
             width: size.width,
             decoration: BoxDecoration(
+                border: cities[index].isSelected == true
+                    ? Border.all(
+                        color: myConstants.secondaryColor.withOpacity(.6),
+                        width: 2,
+                      )
+                    : Border.all(color: Colors.white),
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
                 boxShadow: [
                   BoxShadow(
@@ -42,17 +55,27 @@ class _WelcomeState extends State<Welcome> {
             child: Row(
               children: [
                 GestureDetector(
-                  onTap: () {
-                    setState(() {});
-                  },
-                ),
+                    onTap: () {
+                      setState(() {
+                        cities[index].isSelected = !cities[index].isSelected;
+                      });
+                    },
+                    child: Image.asset(
+                      cities[index].isSelected == true
+                          ? 'images/checked.png'
+                          : 'images/unchecked.png',
+                      width: 30,
+                    )),
                 const SizedBox(
                   width: 10,
                 ),
-                const Text(
-                  "hello",
+                Text(
+                  cities[index].city,
                   style: TextStyle(
                     fontSize: 16,
+                    color: cities[index].isSelected == true
+                        ? myConstants.primaryColor
+                        : Colors.black54,
                   ),
                 )
               ],
