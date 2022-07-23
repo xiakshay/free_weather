@@ -23,3 +23,8 @@ Http package
 $ dart pub add http
 ```
 
+intl package
+
+```
+dart pub add intl
+```
